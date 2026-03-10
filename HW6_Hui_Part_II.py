@@ -101,11 +101,15 @@ class SLR_slope_simulator:
         elif sided == "below":
             prob = np.mean(slopes < value)
         elif sided == "two-sided":
-            prob = np.mean(np.abs(slopes) > abs(value))        
+            median_val = np.median(slopes)
+            
+            if value > median_val:
+                prob = 2 * np.mean(slopes > abs(value))
+            else:
+                prob = 2 * np.mean(slopes < abs(value))
         else:
             raise ValueError("sided must be 'above', 'below', or 'two-sided'")        
-        return prob      
-    
+        return prob 
     
 
 # Create an instance of the SLR_slope_simulator object
